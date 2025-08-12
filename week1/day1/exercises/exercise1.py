@@ -1,1 +1,1 @@
-print("Hello World\n" *4)
+print("Hello World\n" * 4)
