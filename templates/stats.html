@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+
+<main class="max-w-7xl mx-auto my-10">
+  <h1 class="text-2xl font-bold">Dashboard</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+    <div class="bg-white border rounded p-4">
+      <p class="text-sm text-gray-500">Total Games</p>
+      <p class="text-3xl font-semibold">{{ kpis.total_games or 0 }}</p>
+    </div>
+    <div class="bg-white border rounded p-4">
+      <p class="text-sm text-gray-500">Average Rating</p>
+      <p class="text-3xl font-semibold">{{ kpis.avg_rating or '—' }}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    <div class="bg-white border rounded p-4">
+      <h2 class="font-semibold mb-2">Games by Genre</h2>
+      <canvas id="genreChart" height="220"></canvas>
+    </div>
+    <div class="bg-white border rounded p-4">
+      <h2 class="font-semibold mb-2">Games by Year</h2>
+      <canvas id="yearChart" height="220"></canvas>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const genreLabels = {{ charts.by_genre | map(attribute='genre') | list | tojson }};
+  const genreCounts = {{ charts.by_genre | map(attribute='n') | list | tojson }};
+  const yearLabels = {{ charts.by_year | map(attribute='year') | list | tojson }};
+  const yearCounts = {{ charts.by_year | map(attribute='n') | list | tojson }};
+
+  new Chart(document.getElementById('genreChart'), {
+    type: 'doughnut',
+    data: { labels: genreLabels, datasets: [{ data: genreCounts, backgroundColor: ['#6366F1','#A855F7','#EC4899','#22C55E','#F59E0B','#06B6D4','#EF4444'] }] },
+    options: { plugins: { legend: { position: 'bottom' } } }
+  });
+
+  new Chart(document.getElementById('yearChart'), {
+    type: 'bar',
+    data: { labels: yearLabels, datasets: [{ label: 'Games', data: yearCounts, backgroundColor: '#6366F1' }] },
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+</script>
+
+{% endblock %}
+
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+
+<main class="max-w-xl mx-auto my-10">
+  <h1 class="text-2xl font-bold">New Game</h1>
+  <form method="post" class="mt-4 grid gap-3">
+    <input name="title" value="{{ (payload.title if payload else '') }}" placeholder="Title" class="border px-3 py-2 rounded bg-white" required />
+    <textarea name="description" placeholder="Description" class="border px-3 py-2 rounded bg-white" required>{{ (payload.description if payload else '') }}</textarea>
+    <input name="genre" value="{{ (payload.genre if payload else '') }}" placeholder="Genre" class="border px-3 py-2 rounded bg-white" required />
+    <input type="number" name="release_year" value="{{ (payload.release_year if payload else '') }}" placeholder="Release Year" class="border px-3 py-2 rounded bg-white" min="1950" max="2100" required />
+    <input type="number" step="0.1" name="rating" value="{{ (payload.rating if payload else '') }}" placeholder="Rating" class="border px-3 py-2 rounded bg-white" min="0" max="10" required />
+    <div class="flex gap-2">
+      <a href="/games" class="px-4 py-2 border rounded">Cancel</a>
+      <button class="bg-gray-700 text-white px-4 py-2 rounded">Save</button>
+    </div>
+  </form>
+</main>
+
+{% endblock %}
+
+

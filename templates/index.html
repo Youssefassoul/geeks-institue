@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+
+<main class="max-w-7xl mx-auto my-10">
+  <h1 class="ml-6 text-2xl font-bold">Games</h1>
+
+  {% if games and games|length > 0 %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {% for game in games %}
+      <a href="/games/{{ game.id }}" class="group">
+        <article class="bg-white border border-indigo-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:border-fuchsia-200 transition">
+          <div class="relative h-40 bg-gradient-to-br from-indigo-100 via-fuchsia-100 to-pink-100 overflow-hidden">
+            <img
+              src="https://picsum.photos/600/300?random={{ game.id }}"
+              alt="{{ game.title }}"
+              class="w-full h-full object-cover block group-hover:scale-105 transition-transform duration-300"
+            />
+            <div class="absolute flex items-center top-2 right-2 bg-indigo-700 text-white text-xs px-2 py-1 rounded">
+              ★ {{ game.rating or '—' }}
+            </div>
+          </div>
+          <div class="p-4">
+            <h2 class="font-semibold line-clamp-1 group-hover:text-indigo-700">{{ game.title }}</h2>
+            <p class="text-sm text-gray-600 line-clamp-2 mt-1">{{ game.description }}</p>
+            <p class="text-xs text-gray-500 mt-2">{{ game.release_year or '—' }} | {{ game.genre or '—' }}</p>
+          </div>
+        </article>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="mt-10 text-center text-gray-600">
+      <p>No games yet.</p>
+      <p class="mt-2"><a class="text-blue-600 underline" href="/games/create">Add your first game</a></p>
+    </div>
+  {% endif %}
+</main>
+
+{% endblock %}
+
+
